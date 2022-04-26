@@ -1,6 +1,8 @@
 package com.example.angularshopwebsitebackend.controller;
 
+import com.example.angularshopwebsitebackend.model.User_roles;
 import com.example.angularshopwebsitebackend.repository.UserRepo;
+import com.example.angularshopwebsitebackend.service.UserRoleService;
 import com.example.angularshopwebsitebackend.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.query.Procedure;
@@ -18,11 +20,14 @@ public class UserController {
 
     //when ever the user will submit the form it will store in the database
 
-    @Autowired //create an object inject the dependency
+    @Autowired //create an object
     private UserService userService;
 
     @Autowired
     UserRepo userRepository;
+
+    @Autowired
+    UserRoleService userRoleService;
 
     //register a user and check email
 //    @PostMapping(path = "/registration")
@@ -101,4 +106,10 @@ public class UserController {
             return null;
         }
 
+    @PostMapping(value = "/roles")
+    public String assignRole(@RequestBody User_roles user_roles){
+        userRoleService.saveUserRole(user_roles);
+        return "assiged successfully";
     }
+}
+
